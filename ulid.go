@@ -6,10 +6,11 @@ import (
 	"time"
 )
 
+// A ULID is a 26 character Universally Unique Lexicographically Sortable Identifier
 type ULID [26]byte
 
 var (
-	rander = rand.Reader
+	rander = rand.Reader // random function
 	Nil    ULID
 	// Crockford"s Base32
 	// https://en.wikipedia.org/wiki/Base32
@@ -17,10 +18,12 @@ var (
 	enclen   = int64(len(encoding))
 )
 
+
 func New() ULID {
 	return Must(NewRandom())
 }
 
+// Must returns ulid if err is nil and panics otherwise.
 func Must(ulid ULID, err error) ULID {
 	if err != nil {
 		panic(err)
@@ -28,6 +31,10 @@ func Must(ulid ULID, err error) ULID {
 	return ulid
 }
 
+// NewRandom returns a ULID (non-binary implementation) or panics.
+//
+// The strength of the ULIDs is based on the strength of the crypto/rand
+// package.
 func NewRandom() (ULID, error) {
 	var (
 		ulid ULID
@@ -61,6 +68,8 @@ func encodeRandom(ulid *ULID, pivot int) (err error) {
 	return
 }
 
+// String returns the string form of ulid, xxxxxxxxxxxxxxxxxxxxxxxxxx
+// , or "" if uuid is invalid.
 func (ulid ULID) String() string {
 	return string(ulid[:])
 }

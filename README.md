@@ -1,6 +1,6 @@
 # Universally Unique Lexicographically Sortable Identifier
 
-[alizain/ulid](https://github.com/alizain/ulid) port to Golang.
+[alizain/ulid](https://github.com/alizain/ulid) port to Golang. Like the original, the binary format has not been implemented.
 
 ## Why ULID?
 
@@ -8,7 +8,7 @@ Check out [ULID's README](https://github.com/alizain/ulid/blob/master/README.md)
 
 ## Go
 
-I just ported it to see how fast would be the same algorithm in Go.
+I just ported it to see how fast would be the same algorithm in Go. Also, it is cryptographically secure using crypto/rand.
 
 ### Installation
 
