@@ -29,7 +29,7 @@ func BenchmarkULID(b *testing.B) {
 
 func BenchmarkEncodedULID(b *testing.B) {
 	for i := 0; i < b.N; i++ {
-		New().String()
+		_ = New().String()
 	}
 }
 
@@ -37,6 +37,6 @@ func BenchmarkSingleEncodedULID(b *testing.B) {
 	u := New()
 	b.ResetTimer()
 	for i := 0; i < b.N; i++ {
-		u.String()
+		_ = u.String()
 	}
 }
