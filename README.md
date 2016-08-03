@@ -1,6 +1,6 @@
 # Universally Unique Lexicographically Sortable Identifier
 
-[alizain/ulid](https://github.com/alizain/ulid) port to Golang. Like the original, the binary format has not been implemented.
+[alizain/ulid](https://github.com/alizain/ulid) port to Golang (binary format implemented).
 
 ## Why ULID?
 
@@ -33,7 +33,9 @@ u := ulid.New()
 On a Intel Core 2 Duo 6600 @ 2.40 GHz and Windows 10:
 
 ```
-BenchmarkULID-2    50000             31582 ns/op
+BenchmarkULID-2                  1000000              1416 ns/op
+BenchmarkEncodedULID-2           1000000              1857 ns/op
+BenchmarkSingleEncodedULID-2     5000000               380 ns/op
 ```
 
-Approx. 31.663 op/s, almost doubling [Javascript original implementation](https://github.com/alizain/ulid#performance).
+Approx. 538.500 op/s, 30 times faster than [Javascript original implementation](https://github.com/alizain/ulid#performance).
