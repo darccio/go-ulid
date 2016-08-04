@@ -1,4 +1,8 @@
 # Universally Unique Lexicographically Sortable Identifier
+![Project status](https://img.shields.io/badge/version-0.0.3-yellow.svg)
+[![Go Report Card](https://goreportcard.com/badge/imdario/go-ulid)](https://goreportcard.com/report/imdario/go-ulid)
+[![GoDoc](https://godoc.org/github.com/imdario/go-ulid?status.svg)](https://godoc.org/github.com/imdario/go-ulid)
+[![MIT licensed](https://img.shields.io/badge/license-MIT-blue.svg)](https://raw.githubusercontent.com/imdario/go-ulid/master/LICENSE)
 
 [alizain/ulid](https://github.com/alizain/ulid) port to Golang (binary format implemented).
 
