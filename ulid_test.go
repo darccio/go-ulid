@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func TestEncodeTime(t *testing.T) {
+func TestSetTime(t *testing.T) {
 	var (
 		ulid ULID
 		ts   = time.Unix(1469918176, 385000000)
@@ -14,7 +14,24 @@ func TestEncodeTime(t *testing.T) {
 	if tm != 1469918176385 {
 		t.Fatalf("expected 1469918176385, got '%v'", tm)
 	}
-	encodeTime(&ulid, ts)
+	setTime(&ulid, ts)
+	et := ulid.String()
+	if et[:10] != "01ARYZ6S41" {
+		t.Fatalf("expected '01ARYZ6S41', got '%s'", et[:10])
+	}
+}
+
+func TestSetTimeAfterSetRandom(t *testing.T) {
+	var (
+		ulid ULID
+		ts   = time.Unix(1469918176, 385000000)
+	)
+	tm := ts.UnixNano() / int64(time.Millisecond)
+	if tm != 1469918176385 {
+		t.Fatalf("expected 1469918176385, got '%v'", tm)
+	}
+	setRandom(&ulid)
+	setTime(&ulid, ts)
 	et := ulid.String()
 	if et[:10] != "01ARYZ6S41" {
 		t.Fatalf("expected '01ARYZ6S41', got '%s'", et[:10])

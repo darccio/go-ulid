@@ -20,9 +20,13 @@ const (
 
 var (
 	rander = rand.Reader // random function
-	Nil    ULID
+	Nil    ULID          // Empty value ULID as nil
 )
 
+// New is creates a new random ULID or panics. New is equivalent to
+// the expression
+//
+//    ulid.Must(ulid.NewRandom())
 func New() ULID {
 	return Must(NewRandom())
 }
@@ -43,23 +47,25 @@ func NewRandom() (ULID, error) {
 	var (
 		ulid ULID
 	)
-	err := encodeRandom(&ulid)
+	err := setRandom(&ulid)
 	if err != nil {
 		return Nil, err
 	}
-	encodeTime(&ulid, time.Now())
+	setTime(&ulid, time.Now())
 	return ulid, err
 }
 
-func encodeTime(ulid *ULID, t time.Time) {
-	var v [8]byte
+func setTime(ulid *ULID, t time.Time) {
+	var x, y byte
 	timestamp := uint64(t.UnixNano() / int64(time.Millisecond))
-	binary.LittleEndian.PutUint64(v[:], timestamp)
+	// Backups [6] and [7] bytes to override them with their original values later.
+	x, y, ulid[6], ulid[7] = ulid[6], ulid[7], x, y
+	binary.LittleEndian.PutUint64(ulid[:], timestamp)
 	// Truncates at the 6th byte as designed in the original spec (48 bytes).
-	copy(ulid[:], v[:6])
+	ulid[6], ulid[7] = x, y
 }
 
-func encodeRandom(ulid *ULID) (err error) {
+func setRandom(ulid *ULID) (err error) {
 	_, err = rand.Read(ulid[6:])
 	return
 }
@@ -67,11 +73,14 @@ func encodeRandom(ulid *ULID) (err error) {
 // String returns the string form of ulid (26 characters, non-standard base 32)
 func (ulid ULID) String() string {
 	var (
-		buf [26]byte
-		v   [8]byte
+		buf  [26]byte
+		x, y byte
 	)
-	copy(v[:], ulid[:6])
-	timestamp := int64(binary.LittleEndian.Uint64(v[:]))
+	// Backups [6] and [7] bytes to override them with their original values later.
+	x, y, ulid[6], ulid[7] = ulid[6], ulid[7], x, y
+	timestamp := int64(binary.LittleEndian.Uint64(ulid[:8]))
+	// This is useful to shave some nanoseconds from copy() operations.
+	ulid[6], ulid[7] = x, y
 	for x := encodedTimeLength - 1; x >= 0; x-- {
 		mod := timestamp % alphabetSize
 		buf[x] = alphabet[mod]

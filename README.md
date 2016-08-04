@@ -30,15 +30,15 @@ u := ulid.New()
 
 ### Performance
 
-On a Intel Core 2 Duo 6600 @ 2.40 GHz and Windows 10:
+On a Intel Core 2 Duo 6600 @ 2.40 GHz, Windows 10 and Go 1.6.3:
 
 ```
-BenchmarkULID-2                  1000000              1045 ns/op              16 B/op          1 allocs/op
-BenchmarkEncodedULID-2           1000000              1300 ns/op              48 B/op          2 allocs/op
-BenchmarkSingleEncodedULID-2     5000000               236 ns/op              32 B/op          1 allocs/op
+BenchmarkULID-2                  1000000              1029 ns/op              16 B/op          1 allocs/op
+BenchmarkEncodedULID-2           1000000              1249 ns/op              48 B/op          2 allocs/op
+BenchmarkSingleEncodedULID-2    10000000               206 ns/op              32 B/op          1 allocs/op
 ```
 
-Approx. 538.500 op/s, 30 times faster than [Javascript original implementation](https://github.com/alizain/ulid#performance).
+Approx. 800.640 op/s, 46 times faster than [Javascript original implementation](https://github.com/alizain/ulid#performance).
 
 #### How does it compare to UUID?
 
@@ -50,4 +50,4 @@ BenchmarkEncodedUUID-2           1000000              1407 ns/op              64
 BenchmarkSingleEncodedUUID-2     5000000               302 ns/op              48 B/op          1 allocs/op
 ```
 
-go-ulid is slightly faster than Google's UUID!
+go-ulid is around 12% faster than Google's UUID!
