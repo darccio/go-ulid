@@ -46,7 +46,7 @@ Approx. 800.640 op/s, 46 times faster than [Javascript original implementation](
 
 #### How does it compare to UUID?
 
-Using [google/uuid](https://github.com/google/uuid)
+Using [google/uuid](https://github.com/google/uuid):
 
 ```
 BenchmarkUUID-2                  1000000              1041 ns/op              16 B/op          1 allocs/op
@@ -54,4 +54,4 @@ BenchmarkEncodedUUID-2           1000000              1407 ns/op              64
 BenchmarkSingleEncodedUUID-2     5000000               302 ns/op              48 B/op          1 allocs/op
 ```
 
-go-ulid is around 12% faster than Google's UUID!
+go-ulid is about 12% faster than Google's UUID!
