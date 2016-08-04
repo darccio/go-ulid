@@ -2,7 +2,7 @@ package ulid
 
 import (
 	"crypto/rand"
-	"math/big"
+	"encoding/binary"
 	"time"
 )
 
@@ -52,13 +52,11 @@ func NewRandom() (ULID, error) {
 }
 
 func encodeTime(ulid *ULID, t time.Time) {
-	timestamp := t.UnixNano() / int64(time.Millisecond)
-	v := big.NewInt(timestamp).Bytes()
+	var v [8]byte
+	timestamp := uint64(t.UnixNano() / int64(time.Millisecond))
+	binary.LittleEndian.PutUint64(v[:], timestamp)
 	// Truncates at the 6th byte as designed in the original spec (48 bytes).
-	v = v[:6]
-	for i, j := 0, len(v)-1; i < len(v); i, j = i+1, j-1 {
-		ulid[j] = v[i]
-	}
+	copy(ulid[:], v[:6])
 }
 
 func encodeRandom(ulid *ULID) (err error) {
@@ -70,14 +68,10 @@ func encodeRandom(ulid *ULID) (err error) {
 func (ulid ULID) String() string {
 	var (
 		buf [26]byte
-		ti  big.Int
+		v   [8]byte
 	)
-	s := ulid[:6]
-	for i, j := 0, len(s)-1; i < j; i, j = i+1, j-1 {
-		s[i], s[j] = s[j], s[i]
-	}
-	ti.SetBytes(s)
-	timestamp := ti.Int64()
+	copy(v[:], ulid[:6])
+	timestamp := int64(binary.LittleEndian.Uint64(v[:]))
 	for x := encodedTimeLength - 1; x >= 0; x-- {
 		mod := timestamp % alphabetSize
 		buf[x] = alphabet[mod]
