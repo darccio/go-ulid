@@ -20,6 +20,7 @@ const (
 
 var (
 	rander = rand.Reader // random function
+	Nil    ULID          // Nil, empty value, to handle errors
 )
 
 // New is creates a new random ULID or panics. New is equivalent to
