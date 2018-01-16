@@ -10,9 +10,11 @@
 
 Check out [ULID's README](https://github.com/alizain/ulid/blob/master/README.md).
 
-## Go
+## About this implementation
 
-I just ported it to see how fast would be the same algorithm in Go. Also, it is cryptographically secure using crypto/rand.
+**Important:** this repository has been archived. Please use [oklog/ulid](https://github.com/oklog/ulid) implementation.
+
+I ported it to see how fast would be the same algorithm in Go. Also, it is cryptographically secure using crypto/rand.
 
 ### Installation
 
